@@ -26,12 +26,26 @@ const checkStorage = (data) => {
 // and at least title or author name is provided
 const validation = (number, name, title) => {
   const re = /^[0-9]*$/gm;
-  if ((re.test(number) === true && name !== '' && title !== '')) {
+  if (re.test(number) === true && name !== '' && title !== '') {
     return true;
   }
   return false;
 };
 
+// dtee book
+
+// function is parsed into html through a string to to delete books
+// eslint-disable-next-line no-unused-vars
+const deleteBook = (book) => {
+  if (book >= 0) {
+    let libary = checkStorage('libary');
+    libary = JSON.parse([libary]);
+    libary.splice(book, 1);
+    localStorage.setItem('libary', JSON.stringify(libary));
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  }
+};
 
 // show opeion base on read or unread
 const showOptions = (val) => {
@@ -61,9 +75,14 @@ const showBooks = () => {
       <button
       onclick="markRead(${i})"
       type="button"
-      class="btn-close"
+      class="btn btn-outline-secondary"
       data-bs-dismiss="modal"
-      aria-label="Close"></button>
+      aria-label="Close">mark </button>
+
+      <button
+      onclick="deleteBook(${i})"
+      type="button"
+      class="btn btn-outline-danger ">delete </button>
       </div>
       </div>
       <div class="card-body text-primary d-flex justify-content-between">
@@ -86,7 +105,7 @@ form.addEventListener('submit', (e) => {
       bookAuthor.value,
       bookpages.value,
       // eslint-disable-next-line no-undef
-      isRead = false,
+      (isRead = false),
     );
     let libary = checkStorage('libary');
     libary = JSON.parse([libary]);
@@ -99,7 +118,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-
+// mark a book as read
 // eslint-disable-next-line no-unused-vars
 const markRead = (index) => {
   let libary = checkStorage('libary');
@@ -113,7 +132,6 @@ const markRead = (index) => {
   // eslint-disable-next-line no-restricted-globals
   location.reload();
 };
-
 
 window.onload = () => {
   showBooks();
