@@ -3,6 +3,7 @@ const bookTitle = document.querySelector('input[type="title"]');
 const bookAuthor = document.querySelector('input[type="author"]');
 const bookpages = document.querySelector('input[type="pages"]');
 const books = document.querySelector('#books');
+const onerror = document.querySelector('.error');
 // book class
 class Book {
   constructor(title, author, pages, isRead) {
@@ -14,34 +15,34 @@ class Book {
 }
 
 // check if data alread in storage, else make a new one
-function checkStorage(data) {
+const checkStorage = (data) => {
   if (localStorage.getItem(data)) {
     return localStorage.getItem(data);
   }
   return localStorage.setItem('libary', JSON.stringify([]));
-}
+};
 
 // validates user input to make sure pages is an integer
 // and at least title or author name is provided
-function validation(number, name, title) {
+const validation = (number, name, title) => {
   const re = /^[0-9]*$/gm;
   if ((re.test(number) === true && name !== '' && title !== '')) {
     return true;
   }
   return false;
-}
+};
 
 
 // show opeion base on read or unread
-function showOptions(val) {
+const showOptions = (val) => {
   if (val === true) {
     return 'Read';
   }
   return 'Unread';
-}
+};
 
 // display data to ui
-function showBooks() {
+const showBooks = () => {
   let libary = checkStorage('libary');
   libary = JSON.parse(libary);
 
@@ -74,7 +75,7 @@ function showBooks() {
       books.appendChild(para);
     }
   }
-}
+};
 
 // add eventlistener to form
 form.addEventListener('submit', (e) => {
@@ -94,14 +95,13 @@ form.addEventListener('submit', (e) => {
     // eslint-disable-next-line no-restricted-globals
     location.reload();
   } else {
-    // eslint-disable-next-line no-alert
-    alert('All forms are required');
+    onerror.innerText = 'All fields are required';
   }
 });
 
 
 // eslint-disable-next-line no-unused-vars
-function markRead(index) {
+const markRead = (index) => {
   let libary = checkStorage('libary');
   libary = JSON.parse(libary);
   if (libary[index].isRead === false) {
@@ -112,7 +112,7 @@ function markRead(index) {
   localStorage.setItem('libary', JSON.stringify(libary));
   // eslint-disable-next-line no-restricted-globals
   location.reload();
-}
+};
 
 
 window.onload = () => {
